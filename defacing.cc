@@ -39,16 +39,11 @@ int main(void)
     int testcases = 1;
     //std::cin>>testcases;
     while(testcases--) {
-        int score, max_score;
-        std::string score_str, max_score_str;
+        std::string score, max_score;
         std::cin>> score >> max_score;
-        score_str = std::to_string(score);
-        max_score_str = std::to_string(max_score);
-        int length = score_str.length();
-        while(length <  max_score_str.length()) {
+        while(score.length() <  max_score.length()) {
             score_str.insert(0,"~");
-            length++;
         }
-        maximize(score_str, max_score_str);
+        maximize(score, max_score);
     }
 }
