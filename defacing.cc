@@ -1,8 +1,6 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
-#include <boost/algorithm/string.hpp>
-#include <boost/lexical_cast.hpp>
 
 const int compatibility [10][10] = {
     1, 0, 0, 0, 0, 0, 0, 0, 1, 0,
@@ -25,8 +23,7 @@ class Score
     //Converter from int to string
     void setValue()
     {
-        using boost::lexical_cast;
-        score_val = lexical_cast<int> (score_str);
+        score_val = std::stoi (score_str);
     }
 
     public:
@@ -73,17 +70,16 @@ class Score
     //Return a digit specified by the index. O(1)
     int getDigit(int index) const
     {
-        using boost::lexical_cast;
         if(score_str[index] == '~')
             return -1;
-        return lexical_cast<int> (score_str[index]);
+        return (score_str[index])-'0';
     }
 
     //Set a digit specified by the index. O(string_length)
     void setDigit(int index, int value)
     {
-        using boost::lexical_cast;
-        this->score_str[index] = lexical_cast<char> (value);
+        char val = value + '0';
+        this->score_str[index] = val;
         if(score_str.find("~") == std::string::npos)
             this->setValue();
     }
@@ -101,7 +97,10 @@ class Score
     bool isGreater(const Score& sc)
     {
         std::string temp = this->score_str;
-        boost::replace_all(temp, "~", "0");
+        for(int i=0; i < temp.length(); i++) {
+            if(temp[i] == '~')
+                temp[i] = '0';
+        }
         Score sc_temp(temp);
         if (sc_temp.value() > sc.value()) {
             return true;
